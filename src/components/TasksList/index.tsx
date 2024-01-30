@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Box,
@@ -33,6 +34,7 @@ interface Props {
 
 const TasksList = ({ tasks = [] }: Props) => {
   const theme = useTheme()
+  const navigate = useNavigate()
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false)
@@ -117,7 +119,7 @@ const TasksList = ({ tasks = [] }: Props) => {
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        handleClose()
+                        navigate(`/edit/${task.id}`)
                       }}
                     >
                       <ListItemIcon>

@@ -40,10 +40,15 @@ const TasksList = ({ tasks = [] }: Props) => {
     undefined,
   )
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
+  const [anchorEl, setAnchorEl] = useState<{
+    anchor: HTMLElement | null
+    id: number
+  } | null>(null)
+  const handleClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    taskId: number,
+  ) => {
+    setAnchorEl({ anchor: event.currentTarget, id: taskId })
   }
   const handleClose = () => {
     setAnchorEl(null)
@@ -84,17 +89,21 @@ const TasksList = ({ tasks = [] }: Props) => {
                   <IconButton
                     aria-label="more"
                     id="long-button"
-                    aria-controls={open ? 'long-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
+                    aria-controls={
+                      anchorEl?.id === task.id ? 'long-menu' : undefined
+                    }
+                    aria-expanded={
+                      anchorEl?.id === task.id ? 'true' : undefined
+                    }
                     aria-haspopup="true"
-                    onClick={handleClick}
+                    onClick={e => handleClick(e, task.id)}
                   >
                     <MoreVertIcon />
                   </IconButton>
                   <Menu
                     id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
+                    anchorEl={anchorEl?.anchor}
+                    open={anchorEl?.id === task.id}
                     onClose={handleClose}
                     MenuListProps={{
                       'aria-labelledby': 'basic-button',

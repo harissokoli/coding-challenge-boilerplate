@@ -21,19 +21,13 @@ const ToDoList = () => {
       ],
     },
     {
-      id: 1,
-      title: 'lorem ipsum',
+      id: 3,
+      title: '123 lorem ipsum',
       description:
         'Lorem ipsum dolor sit amet, at nulla sapien. Praesent pharetra urna justo, sit amet posuere risus eleifend sit amet. Sed rhoncus metus quis facilisis dictum.',
       dateCreated: new Date().toString(),
       status: 'new',
-      history: [
-        {
-          id: 2,
-          status: 'in progress',
-          date: new Date(),
-        },
-      ],
+      history: [],
     },
   ]
 

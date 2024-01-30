@@ -1,4 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
+
+import Context from '../../store/context'
+import mapNewTask from '../../helpers/mapNewTask'
 
 import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -14,13 +17,16 @@ interface FormErrors {
   description?: string
 }
 
+const initialFormData = {
+  title: '',
+  description: '',
+}
+
 const AddTask = () => {
   const theme = useTheme()
+  const { tasks, addTask } = useContext(Context)
 
-  const [formData, setFormData] = useState<FormState>({
-    title: '',
-    description: '',
-  })
+  const [formData, setFormData] = useState<FormState>(initialFormData)
   const [formErrors, setFormErrors] = useState<FormErrors>({})
 
   const validate = (): FormErrors => {
@@ -49,7 +55,9 @@ const AddTask = () => {
     const errors = validate()
     if (Object.keys(errors).length === 0) {
       setFormErrors({})
-      console.log('Form submitted:', formData)
+      const data = mapNewTask(formData, tasks)
+      addTask(data)
+      setFormData(initialFormData)
     } else {
       setFormErrors(errors)
     }

@@ -4,6 +4,7 @@ import { Box, Modal, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 
 import dateFormat from '../../constants/dateFormat'
+import { Statuses } from '../..//constants/status'
 
 import { modalStyle } from '../../styles/modal'
 import { TaskType } from '../../types/TaskType'
@@ -44,7 +45,7 @@ const TaskHistoryModal = ({
               sx={{ borderBottom: `1px solid ${theme.palette.grey['400']}` }}
             >
               <Typography variant="body1" fontWeight="bold">
-                The task was marked as “{h.status}”
+                The task was marked as “{Statuses[h.status]}”
               </Typography>
 
               <Stack

@@ -1,16 +1,21 @@
+import { useContext } from 'react'
+
 import { Container } from '@mui/material'
+
+import Context from '../../store/context'
 
 import AddTask from '../../components/AddTask'
 import TasksList from '../../components/TasksList'
 
-import todos from '../../__mock__/todos'
-
 const ToDoList = () => {
+  const { tasks } = useContext(Context)
+
+  console.log('tasks:', tasks)
   return (
     <>
       <Container maxWidth="lg">
         <AddTask />
-        <TasksList tasks={todos} />
+        <TasksList tasks={tasks} />
       </Container>
     </>
   )

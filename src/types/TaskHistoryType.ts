@@ -1,5 +1,7 @@
+import { StatusEnum } from '../constants/status'
+
 export interface TaskHistoryType {
   id: number
-  status: string
+  status: StatusEnum
   date: Date
 }

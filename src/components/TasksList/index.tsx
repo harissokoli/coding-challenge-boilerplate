@@ -1,20 +1,30 @@
+import { format } from 'date-fns'
+import { MouseEvent, useState } from 'react'
+
 import {
   Box,
+  Button,
   Chip,
   IconButton,
+  ListItemIcon,
   Menu,
   MenuItem,
+  Modal,
   Stack,
   Typography,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+
+import EditIcon from '@mui/icons-material/Edit'
+import EventIcon from '@mui/icons-material/Event'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
-import NoTask from '../../assets/NoTask.svg'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
-import { TaskType } from 'types/TaskType'
-import { MouseEvent, useState } from 'react'
-import { format } from 'date-fns'
+import Trash from '../../assets/Trash.svg'
+import NoTask from '../../assets/NoTask.svg'
+import { modalStyle } from '../../styles/modal'
+import { TaskType } from '../../types/TaskType'
 
 interface Props {
   tasks?: TaskType[]
@@ -23,7 +33,10 @@ interface Props {
 const TasksList = ({ tasks = [] }: Props) => {
   const theme = useTheme()
 
-  console.log('tasks:', tasks)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(true)
+  const [selectedTask, setSelectedTask] = useState<undefined | TaskType>(
+    undefined,
+  )
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -85,9 +98,32 @@ const TasksList = ({ tasks = [] }: Props) => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <ListItemIcon>
+                        <EventIcon fontSize="small" />
+                      </ListItemIcon>
+                      Task History
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <ListItemIcon>
+                        <EditIcon fontSize="small" />
+                      </ListItemIcon>
+                      Edit Task
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setShowDeleteModal(true)
+                        setSelectedTask(task)
+                        handleClose()
+                      }}
+                    >
+                      <ListItemIcon>
+                        <DeleteForeverIcon fontSize="small" />
+                      </ListItemIcon>
+                      <Typography color={theme.palette.error.dark}>
+                        Delete Task
+                      </Typography>
+                    </MenuItem>
                   </Menu>
                 </Stack>
               </Stack>
@@ -134,6 +170,43 @@ const TasksList = ({ tasks = [] }: Props) => {
           </Stack>
         </Box>
       )}
+      <Modal
+        open={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false)
+          setSelectedTask(undefined)
+        }}
+      >
+        <Box sx={modalStyle}>
+          <Stack gap={4} justifyContent="center" alignItems="center" mb={2}>
+            <img src={Trash} alt="Trash" style={{ maxHeight: 56 }} />
+            <Typography variant="h5" component="h5" fontWeight="bold">
+              Delete Task?
+            </Typography>
+            <Typography>
+              You have made changes, are you sure about deleting “
+              {selectedTask?.title}”?
+            </Typography>
+          </Stack>
+          <Stack direction="row" gap={2} mt={4}>
+            <Button
+              fullWidth
+              size="large"
+              color="primary"
+              variant="outlined"
+              onClick={() => {
+                setShowDeleteModal(false)
+                setSelectedTask(undefined)
+              }}
+            >
+              Cancel
+            </Button>
+            <Button fullWidth size="large" color="error" variant="contained">
+              Delete
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
     </>
   )
 }

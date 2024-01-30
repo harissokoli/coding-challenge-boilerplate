@@ -14,7 +14,7 @@ const ToDoList = () => {
       status: 'new',
     },
     {
-      id: 0,
+      id: 1,
       title: 'lorem ipsum',
       description:
         'Lorem ipsum dolor sit amet, at nulla sapien. Praesent pharetra urna justo, sit amet posuere risus eleifend sit amet. Sed rhoncus metus quis facilisis dictum.',
@@ -24,12 +24,12 @@ const ToDoList = () => {
   ]
 
   return (
-    <main>
+    <>
       <Container maxWidth="lg">
         <AddTask />
         <TasksList tasks={tasks} />
       </Container>
-    </main>
+    </>
   )
 }
 

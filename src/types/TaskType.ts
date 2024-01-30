@@ -5,6 +5,6 @@ export interface TaskType {
   title: string
   description: string
   dateCreated: string
-  status: string
+  status: number
   history?: TaskHistoryType[]
 }

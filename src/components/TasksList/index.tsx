@@ -3,7 +3,6 @@ import { MouseEvent, useState } from 'react'
 
 import {
   Box,
-  Chip,
   IconButton,
   ListItemIcon,
   Menu,
@@ -15,6 +14,7 @@ import { useTheme } from '@mui/material/styles'
 
 import DeleteTaskModal from '../../modals/DeleteTask'
 import TaskHistoryModal from '../../modals/TaskHistory'
+import StatusChip from '../../components/StatusChip'
 
 import dateFormat from '../../constants/dateFormat'
 
@@ -79,13 +79,7 @@ const TasksList = ({ tasks = [] }: Props) => {
               >
                 <Typography variant="h6">{task.title}</Typography>
                 <Stack direction="row" alignItems="center">
-                  <Chip
-                    label="In Progress"
-                    sx={{
-                      color: theme.palette.background.paper,
-                      backgroundColor: theme.palette.secondary.light,
-                    }}
-                  />
+                  <StatusChip status={task.status} />
                   <IconButton
                     aria-label="more"
                     id="long-button"

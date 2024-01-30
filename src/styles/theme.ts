@@ -1,8 +1,11 @@
-import { Theme, createTheme } from '@mui/material'
+import { createTheme, Theme } from '@mui/material'
 
 const white = '#fff'
 
 export const theme: Theme = createTheme({
+  typography: {
+    fontFamily: 'Inter',
+  },
   palette: {
     primary: {
       main: '#000000',
@@ -75,6 +78,20 @@ export const theme: Theme = createTheme({
       selected: 'rgba(0, 0, 0, 0.14)',
       disabled: 'rgba(0, 0, 0, 0.26)',
       disabledBackground: 'rgba(0, 0, 0, 0.12)',
+    },
+  },
+  shape: {
+    borderRadius: 4,
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          MuiOutlinedInput: {
+            borderRadius: 32,
+          },
+        },
+      },
     },
   },
 })

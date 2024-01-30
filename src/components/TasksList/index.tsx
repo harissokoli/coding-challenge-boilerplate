@@ -3,28 +3,29 @@ import { MouseEvent, useState } from 'react'
 
 import {
   Box,
-  Button,
   Chip,
   IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
-  Modal,
   Stack,
   Typography,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+
+import DeleteTaskModal from '../../modals/DeleteTask'
+import TaskHistoryModal from '../../modals/TaskHistory'
+
+import dateFormat from '../../constants/dateFormat'
+
+import { TaskType } from '../../types/TaskType'
 
 import EditIcon from '@mui/icons-material/Edit'
 import EventIcon from '@mui/icons-material/Event'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-
-import Trash from '../../assets/Trash.svg'
 import NoTask from '../../assets/NoTask.svg'
-import { modalStyle } from '../../styles/modal'
-import { TaskType } from '../../types/TaskType'
 
 interface Props {
   tasks?: TaskType[]
@@ -33,7 +34,8 @@ interface Props {
 const TasksList = ({ tasks = [] }: Props) => {
   const theme = useTheme()
 
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(true)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false)
   const [selectedTask, setSelectedTask] = useState<undefined | TaskType>(
     undefined,
   )
@@ -98,13 +100,23 @@ const TasksList = ({ tasks = [] }: Props) => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      onClick={() => {
+                        setShowHistoryModal(true)
+                        setSelectedTask(task)
+                        handleClose()
+                      }}
+                    >
                       <ListItemIcon>
                         <EventIcon fontSize="small" />
                       </ListItemIcon>
                       Task History
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose()
+                      }}
+                    >
                       <ListItemIcon>
                         <EditIcon fontSize="small" />
                       </ListItemIcon>
@@ -135,7 +147,7 @@ const TasksList = ({ tasks = [] }: Props) => {
               >
                 <AccessTimeIcon sx={{ height: 16, width: 16 }} />
                 <Typography variant="body2">
-                  Created: {format(task.dateCreated, 'MMM dd, yyyy - h:mm aaa')}
+                  Created: {format(task.dateCreated, dateFormat)}
                 </Typography>
               </Stack>
               <Stack mt={1}>
@@ -163,50 +175,25 @@ const TasksList = ({ tasks = [] }: Props) => {
           }}
         >
           <Stack justifyContent="center" alignItems="center">
-            <img src={NoTask} alt={'No Task Image'} />
+            <img src={NoTask} alt="No Task Image" />
             <Typography textAlign="center">
               You have nothing to do. <br /> Go get some sleep!
             </Typography>
           </Stack>
         </Box>
       )}
-      <Modal
-        open={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false)
-          setSelectedTask(undefined)
-        }}
-      >
-        <Box sx={modalStyle}>
-          <Stack gap={4} justifyContent="center" alignItems="center" mb={2}>
-            <img src={Trash} alt="Trash" style={{ maxHeight: 56 }} />
-            <Typography variant="h5" component="h5" fontWeight="bold">
-              Delete Task?
-            </Typography>
-            <Typography>
-              You have made changes, are you sure about deleting “
-              {selectedTask?.title}”?
-            </Typography>
-          </Stack>
-          <Stack direction="row" gap={2} mt={4}>
-            <Button
-              fullWidth
-              size="large"
-              color="primary"
-              variant="outlined"
-              onClick={() => {
-                setShowDeleteModal(false)
-                setSelectedTask(undefined)
-              }}
-            >
-              Cancel
-            </Button>
-            <Button fullWidth size="large" color="error" variant="contained">
-              Delete
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
+      <DeleteTaskModal
+        selectedTask={selectedTask}
+        setSelectedTask={setSelectedTask}
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+      />
+      <TaskHistoryModal
+        selectedTask={selectedTask}
+        setSelectedTask={setSelectedTask}
+        showHistoryModal={showHistoryModal}
+        setShowHistoryModal={setShowHistoryModal}
+      />
     </>
   )
 }

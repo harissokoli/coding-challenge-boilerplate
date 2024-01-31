@@ -9,12 +9,15 @@ interface Props {
   selectedTask?: TaskType
   showDeleteModal: boolean
 
+  removeTask(id: number): void
+
   setSelectedTask(task?: TaskType): void
 
   setShowDeleteModal(showDeleteModal: boolean): void
 }
 
 const DeleteTaskModal = ({
+  removeTask,
   selectedTask,
   setSelectedTask,
   showDeleteModal,
@@ -52,7 +55,19 @@ const DeleteTaskModal = ({
           >
             Cancel
           </Button>
-          <Button fullWidth size="large" color="error" variant="contained">
+          <Button
+            fullWidth
+            size="large"
+            color="error"
+            variant="contained"
+            onClick={() => {
+              if (selectedTask) {
+                removeTask(selectedTask.id)
+                setShowDeleteModal(false)
+                setSelectedTask(undefined)
+              }
+            }}
+          >
             Delete
           </Button>
         </Stack>

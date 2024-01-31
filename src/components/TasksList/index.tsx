@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { MouseEvent, useState } from 'react'
+import { MouseEvent, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -12,6 +12,8 @@ import {
   Typography,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+
+import Context from '../../store/context'
 
 import DeleteTaskModal from '../../modals/DeleteTask'
 import TaskHistoryModal from '../../modals/TaskHistory'
@@ -35,6 +37,8 @@ interface Props {
 const TasksList = ({ tasks = [] }: Props) => {
   const theme = useTheme()
   const navigate = useNavigate()
+
+  const { removeTask } = useContext(Context)
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false)
@@ -188,6 +192,7 @@ const TasksList = ({ tasks = [] }: Props) => {
         </Box>
       )}
       <DeleteTaskModal
+        removeTask={removeTask}
         selectedTask={selectedTask}
         setSelectedTask={setSelectedTask}
         showDeleteModal={showDeleteModal}

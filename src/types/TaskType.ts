@@ -7,5 +7,5 @@ export interface TaskType {
   description: string
   dateCreated: Date
   status: StatusEnum
-  history?: TaskHistoryType[]
+  history: TaskHistoryType[]
 }

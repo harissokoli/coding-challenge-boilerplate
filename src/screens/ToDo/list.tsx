@@ -10,10 +10,9 @@ import TasksList from '../../components/TasksList'
 const ToDoList = () => {
   const { tasks } = useContext(Context)
 
-  console.log('tasks:', tasks)
   return (
     <>
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <AddTask />
         <TasksList tasks={tasks} />
       </Container>

@@ -11,9 +11,9 @@ const Provider = ({ children }: PropsWithChildren) => {
   const addTask = (task: TaskType) => {
     setTasks([...tasks, task])
   }
-  const editTask = (id: number, task: TaskType) => {
-    const t = tasks.find(task => task.id === id)
-    const filteredTasks = tasks.filter(tasks => tasks.id !== id)
+  const editTask = (task: TaskType) => {
+    const t = tasks.find(tasks => tasks.id === task.id)
+    const filteredTasks = tasks.filter(tasks => tasks.id !== task.id)
 
     const updatedTask = {
       ...t,

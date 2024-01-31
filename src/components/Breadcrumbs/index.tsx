@@ -16,7 +16,7 @@ const Breadcrumbs = () => {
   }, [pathname])
 
   return (
-    <Container maxWidth="lg" sx={{ marginBottom: 2, marginTop: 2 }}>
+    <Container maxWidth="md" sx={{ marginBottom: 2, marginTop: 2 }}>
       <BreadcrumbsMUI separator={'>'}>
         <Link underline="hover" key="1" color="inherit" href="/">
           Task Management

@@ -4,9 +4,9 @@ import { TaskType } from '../types/TaskType'
 
 const Context = createContext<{
   tasks: TaskType[]
-  addTask: (task: TaskType) => void
-  editTask: (id: number, task: TaskType) => void
   removeTask: (id: number) => void
+  addTask: (task: TaskType) => void
+  editTask: (task: TaskType) => void
 }>({
   tasks: [],
   addTask: () => {},
